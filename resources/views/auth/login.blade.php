@@ -35,7 +35,7 @@
                             <label for="username" class="col-md-4 col-form-label text-md-right">{{ __('Usuario') }}</label>
 
                             <div class="col-md-6">
-                                <input id="username" type="username" class="form-control{{ $errors->has('username') ? ' is-invalid' : '' }}" name="username" value="{{ old('username') }}" required autofocus>
+                                <input id="username" type="tetx" class="form-control{{ $errors->has('username') ? ' is-invalid' : '' }}" name="username" value="{{ old('username') }}" required autofocus>
 
                                 @if ($errors->has('username'))
                                     <span class="invalid-feedback" role="alert">
@@ -49,7 +49,7 @@
                             <label for="extensionAttribute15" class="col-md-4 col-form-label text-md-right">{{ __('No. Empleado') }}</label>
 
                             <div class="col-md-6">
-                                <input id="extensionAttribute15" type="extensionAttribute15" class="form-control{{ $errors->has('extensionAttribute15') ? ' is-invalid' : '' }}" name="extensionAttribute15" value="{{ old('extensionAttribute15') }}" required autofocus>
+                                <input id="extensionAttribute15" type="number" class="form-control{{ $errors->has('extensionAttribute15') ? ' is-invalid' : '' }}" name="extensionAttribute15" value="{{ old('extensionAttribute15') }}" required autofocus>
 
                                 @if ($errors->has('extensionAttribute15'))
                                     <span class="invalid-feedback" role="alert">
