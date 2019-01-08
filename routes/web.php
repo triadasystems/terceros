@@ -31,4 +31,6 @@ Route::post('logout', 'Auth\LoginController@logout')->name('logout');
 Route::group(['prefix' => 'terceros'], function(){
     Route::get('/tercerosasignados', 'TercerosController@index')->name('subordinados');
     Route::get('/datatercerosasignados','TercerosController@tercerosAsignados')->name('tercerosAsignados.data');
+
+    Route::post('/bajatercero', 'TercerosController@bajatercero')->name('bajatercero');
 });

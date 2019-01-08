@@ -101,3 +101,29 @@ input[type=checkbox], input[type=radio] {
     width: auto !important;
     display:inline-block !important;
 }
+/* Terceros */
+.error-msj {
+    width: 100%;
+    margin-top: .25rem;
+    font-size: 65%;
+    font-weight: bold;
+    color: #e3342f !important;
+    display: none;
+}
+.error-msj-activo {
+    display: block;
+}
+.error-msj-inactivo {
+    display: none;
+}
+
+/* SweetAlert2 */
+.swal2-popup .swal2-title {
+    font-size: 1.05em !important;
+}
+.col-form-label {
+    font-size: .9rem;
+}
+.txt-bold {
+    font-weight:bold;
+}

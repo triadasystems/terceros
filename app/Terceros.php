@@ -31,8 +31,23 @@ class Terceros extends Model
     ];
 
     public $timestamps = false;
-
+    
     public function tercerosAsignados($noBadge = null) {
-        return Terceros::where("authorizing_number", "=", $noBadge)->get()->toArray();
+        return Terceros::where("authorizing_number", "=", $noBadge)
+                        ->where("status", "=", "1")
+                        ->orWhere("responsible_number", "=", $noBadge)
+                        ->where("status", "=", "1")
+                        ->get()
+                        ->toArray();
+    }
+
+    public function bajaTercero($id) {
+        $tercero = Terceros::find($id);
+        $tercero->status = 2;        
+        
+        if($tercero->save()) {
+            return true;
+        }
+        return false;
     }
 }

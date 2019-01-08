@@ -94,6 +94,16 @@
             @yield('content')
         </main>
     </div>
+    <script>
+        function mostrarError(id = null) {
+            $("#"+id).addClass("error-msj-activo");
+            $("#"+id).removeClass("error-msj-inactivo");
+        }
+        function ocultarError(id = null) {
+            $("#"+id).removeClass("error-msj-activo");
+            $("#"+id).addClass("error-msj-inactivo");
+        }
+    </script>
     @stack('scripts')
 </body>
 </html>

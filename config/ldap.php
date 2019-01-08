@@ -249,7 +249,7 @@ return [
                 // Domain Controllers
                 'hosts' => explode(' ', 'tsm.televisa.com.mx'),
                 // Port
-                'port' => 636,
+                'port' => 389,
                 // Timeout
                 'timeout' => 1000,
                 // Base Distinguished Name
@@ -284,7 +284,7 @@ return [
                 // Timeout
                 'timeout' => 1000,
                 // Base Distinguished Name
-                'base_dn' => 'DC=corp,dc=televisa,DC=com,DC=mx',
+                'base_dn' => 'DC=filial,dc=televisa,DC=com,DC=mx',
                 // LDAP Username & Password
                 'username' => 'sysadmin_desa@televisa.com.mx',
                 'password' => 'Diciembre_2mil18#',
