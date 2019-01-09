@@ -110,6 +110,7 @@
                 confirmButtonText: 'Aplicar Baja',
                 confirmButtonAriaLabel: 'Aplicar Baja',
                 cancelButtonText: 'Cancelar Baja',
+                allowOutsideClick: false,
             });
         });
         
@@ -144,7 +145,7 @@
                     if(response === true) {
                         table.ajax.reload();
                         swal(
-                            'Activar/Desactivar',
+                            'Bajas Aplicada',
                             'La operación se ha realizado con éxito',
                             'success'
                         )
@@ -158,8 +159,8 @@
                             window.location.href = " route('homeajax') ";
                     }
                 }).fail(function(response){
-                    if (response.responseJSON.errors.motivo[0] != "") {
-                        mostrarError();
+                    if (response.responseJSON !== undefined && response.responseJSON.errors.motivo && response.responseJSON.errors.motivo[0] != "") {
+                        mostrarError("motivo_baja");
                     }
                 });
             }

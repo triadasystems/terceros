@@ -32,7 +32,7 @@ class TercerosController extends Controller
 
         if($tercero->bajaTercero($id) === true) {
             return Response::json(true);
-        }        
+        }
 
         return Response::json(false);
     }
