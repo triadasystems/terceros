@@ -217,7 +217,7 @@
             processing: true,
             serverSide: true,
             
-            ajax: '{!! route("tercerosAsignados.data", ["noEmployee" => 12345678]) !!}',
+            ajax: '{!! route("tercerosAsignados.data", ["noEmployee" => Auth::user()->noEmployee]) !!}',
             columns: [
                 {
                     // targets: 0,
