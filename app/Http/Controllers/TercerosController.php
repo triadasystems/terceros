@@ -20,17 +20,15 @@ class TercerosController extends Controller
     }
 
     public function bajatercero(Request $request) {
-        $id = $request->post("id");
-        $estado = $request->post("estado");
-
         $request->validate([
-            "id" => ["required"],
-            "motivo" => ["required"]   
+            "id" => "required",
+            "motivo" => "required",
+            "real_low_date" => "sometimes|date|nullable"
         ]);
         
         $tercero = new Terceros;
 
-        if($tercero->bajaTercero($id) === true) {
+        if($tercero->bajaTercero($request->post()) === true) {
             return Response::json(true);
         }
 

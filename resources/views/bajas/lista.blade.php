@@ -39,6 +39,7 @@
         $(document).on("click", "#bajaAcc", function () {
             var id = $(this).attr("data-id-tercero");
             var dateInitial = $(this).attr("data-date-initial");
+            var dateRealLow = $(this).attr("data-real-low-date");
             var dateLow = $(this).attr("data-date-low");
             var status = $(this).attr("data-estatus");
 
@@ -63,23 +64,22 @@
                         '<input type="hidden" name="id_tercero" id="id_tercero" value="'+id+'" />'+
                         '<div class="form-group row">'+
                             '<div class="col-md-6">'+
-                                '<label for="description" class="col-lg-12 col-form-label text-left txt-bold">Nombre Completo del Solicitante</label>'+
-
-                                '<label for="description" class="col-lg-12 col-form-label text-left">Prueba</label>'+
+                                '<label for="lbl-solicitante" class="col-lg-12 col-form-label text-left txt-bold">Solicitante</label>'+
+                                '<label for="solicitante" class="col-lg-12 col-form-label text-left">{{ Auth::user()->name }}</label>'+
                             '</div>'+
                             '<div class="col-md-6">'+
-                                '<label for="description" class="col-lg-12 col-form-label text-left txt-bold">Estado Actual</label>'+
-                                '<label for="description" class="col-lg-12 col-form-label text-left">'+status+'</label>'+
+                                '<label for="lbl-estado" class="col-lg-12 col-form-label text-left txt-bold">Estado Actual</label>'+
+                                '<label for="estado" class="col-lg-12 col-form-label text-left">'+status+'</label>'+
                             '</div>'+
                         '</div>'+
                         '<div class="form-group row">'+
                             '<div class="col-md-6">'+
-                                '<label for="description" class="col-lg-12 col-form-label text-left txt-bold">Fecha Inicial Registrada</label>'+
-                                '<input id="modulename" type="text" readonly class="form-control" name="modulename" value="'+dateInitial+'" required autofocus>'+
+                                '<label for="fecha_inicial" class="col-lg-12 col-form-label text-left txt-bold">Fecha Inicial Registrada</label>'+
+                                '<input id="fecha_inicial" type="text" readonly class="form-control" name="fecha_inicial" value="'+dateInitial+'" required autofocus>'+
                             '</div>'+
                             '<div class="col-md-6">'+
-                                '<label for="description" class="col-lg-12 col-form-label text-left txt-bold">Fecha de Baja Registrada</label>'+
-                                '<input id="modulename" type="text" readonly class="form-control" name="modulename" value="'+dateLow+'" required autofocus>'+
+                                '<label for="fecha_baja" class="col-lg-12 col-form-label text-left txt-bold">Fecha de Baja Registrada</label>'+
+                                '<input id="fecha_baja" type="text" readonly class="form-control" name="fecha_baja" value="'+dateLow+'" required autofocus>'+
                             '</div>'+
                         '</div>'+
                         '<div class="form-group row">'+
@@ -93,6 +93,16 @@
                                 '</select>'+
                                 '<span id="motivo_baja" class="error-msj" role="alert">'+
                                     '<strong>El campo Motivo de Baja es obligatorio</strong>'+
+                                '</span>'+
+                            '</div>'+
+                        '</div>'+
+                        '<div class="form-group row">'+
+                            '<div class="col-md-12">'+
+                                '<label for="real_low_date" class="col-lg-12 col-form-label text-left txt-bold">Fecha Real de Baja (Opcional)</label>'+
+                                '<input id="real_low_date" type="date" class="form-control" name="real_low_date" autofocus>'+
+
+                                '<span id="errmsj_reallowdate" class="error-msj" role="alert">'+
+                                    '<strong>El campo Fecha Real es obligatorio</strong>'+
                                 '</span>'+
                             '</div>'+
                         '</div>'+
@@ -116,6 +126,10 @@
         
         $(document).on("click", "#ap_baja", function () {
             var motivo = $("#motivo").val();
+            var fechaRealBaja = $("#real_low_date").val();
+            var badgeN = $(this).attr("data-badge-number");
+            var email = $(this).attr("data-email");
+
             if (motivo == null || motivo == "") {
                 mostrarError("motivo_baja");
             } else {
@@ -131,7 +145,7 @@
 
                 $.ajax({
                     type: 'POST',
-                    data: { id: idTercero, motivo: motivo },
+                    data: { id: idTercero, motivo: motivo, real_low_date: fechaRealBaja, email: email, badge_number: badgeN },
                     dataType: 'JSON',
                     url: '{{ route("bajatercero") }}',
                     async: false,
@@ -229,7 +243,7 @@
                 {
                     targets: -1,
                     render: function (data, type, row) {
-                        return '<div class="row"><div class="col-lg-12 text-center"><button type="button" title="Baja de tercero" class="btn btn-danger" data-date-initial="'+row.initial_date+'" data-date-low="'+row.low_date+'" data-id-tercero="'+row.id+'" data-estatus="'+row.status+'" id="bajaAcc"><i class="fas fa-user-minus"></i></button></div></div>';
+                        return '<div class="row"><div class="col-lg-12 text-center"><button type="button" title="Baja de tercero" class="btn btn-danger" data-date-initial="'+row.initial_date+'" data-date-low="'+row.low_date+'" data-id-tercero="'+row.id+'" data-estatus="'+row.status+'" data-email="'+row.email+'" data-badge-number="'+row.badge_number+'" id="bajaAcc"><i class="fas fa-user-minus"></i></button></div></div>';
                     }
                 }
             ],
