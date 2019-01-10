@@ -35,7 +35,8 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    // protected $redirectTo = '/home';
+    protected $redirectTo = '/terceros/tercerosasignados';  // EVP
 
     /**
      * Create a new controller instance.
@@ -124,30 +125,31 @@ class LoginController extends Controller
         if ($auth === true) {
             // the user exists in the LDAP server, with the provided password
 
-            // $user = \App\User::where('email', $email)->first();
-            $user = TCSUsersSessions::where('email', $email)->first();//->get()->toArray();
-
-            if (!$user) {
+            $TCSUsersSessions = new TCSUsersSessions;
+            // $user = $TCSUsersSessions->validateNumberEmployee($email);
+            
+            // if (!$user) {
                 // the user doesn't exist in the local database, so we have to create one
                 
                 // $user = new \App\User();
-                $user = new TCSUsersSessions;
-                $user->email = $email;
-                $user->name = $username;
+            $user = $TCSUsersSessions;
+            $user->email = $email;
+            $user->name = $username;
+            $user->noEmployee = $noEmployee;
                 // $user->remember_token = $token;
                 
-                // you can skip this if there are no extra attributes to read from the LDAP server
-                // or you can move it below this if(!$user) block if you want to keep the user always
-                // in sync with the LDAP server 
-                $sync_attrs = $this->retrieveSyncAttributes($username);
-                
-                if(!empty($sync_attrs)) {
-                    foreach ($sync_attrs as $field => $value) {
-                        $user->$field = $value !== null ? $value : '';
-                    }
+            // you can skip this if there are no extra attributes to read from the LDAP server
+            // or you can move it below this if(!$user) block if you want to keep the user always
+            // in sync with the LDAP server 
+            $sync_attrs = $this->retrieveSyncAttributes($username);
+            
+            if(!empty($sync_attrs)) {
+                foreach ($sync_attrs as $field => $value) {
+                    $user->$field = $value !== null ? $value : '';
                 }
-                // $user->save();
             }
+                // $user->save();
+            // }
 
             // echo '<pre>';print_r($user);echo '</pre>';
             // die();

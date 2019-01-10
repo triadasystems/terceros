@@ -25,3 +25,12 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
 Route::post('login', 'Auth\LoginController@login');
 Route::post('logout', 'Auth\LoginController@logout')->name('logout');
+
+// Terceros
+// Route::group(['prefix' => 'terceros', 'middleware' => 'userProfileInactivo'], function(){
+Route::group(['prefix' => 'terceros'], function(){
+    Route::get('/tercerosasignados', 'TercerosController@index')->name('subordinados');
+    Route::get('/datatercerosasignados','TercerosController@tercerosAsignados')->name('tercerosAsignados.data');
+
+    Route::post('/bajatercero', 'TercerosController@bajatercero')->name('bajatercero');
+});

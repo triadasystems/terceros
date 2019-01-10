@@ -40,24 +40,6 @@ return [
             'foreign_key_constraints' => env('DB_FOREIGN_KEYS', true),
         ],
 
-        'mysql2' => [
-            'driver' => 'mysql',
-            'host' => '10.7.6.177',
-            'port' => '3306',
-            'database' => 'pes2018_prod',
-            'username' => 'triada',
-            'password' => 'Syst3m18',
-            'charset' => 'latin1',
-            'collation' => 'latin1_bin',
-            'unix_socket' => '',
-            // 'charset' => 'utf8mb4',
-            // 'collation' => 'utf8mb4_unicode_ci',
-            'prefix' => '',
-            'strict' => true,
-            'engine' => null,
-            'encriptado' => true,
-        ],
-
         'mysql' => [
             'driver' => 'mysql',
             'host' => '10.7.6.177',
@@ -76,6 +58,25 @@ return [
             'engine' => null,
             'encriptado' => true,
         ],
+
+        // 'mysql' => [
+        //     'driver' => 'mysql',
+        //     'host' => 'localhost',
+        //     'port' => '3306',
+        //     'database' => 'pes2018_prod',
+        //     // 'database' => 'test',
+        //     'username' => 'root',
+        //     'password' => '',
+        //     'charset' => 'latin1',
+        //     'collation' => 'latin1_bin',
+        //     'unix_socket' => '',
+        //     // 'charset' => 'utf8mb4',
+        //     // 'collation' => 'utf8mb4_unicode_ci',
+        //     'prefix' => '',
+        //     'strict' => true,
+        //     'engine' => null,
+        //     'encriptado' => true,
+        // ],
 
         'pgsql' => [
             'driver' => 'pgsql',

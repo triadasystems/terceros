@@ -14,10 +14,15 @@ class LDAPController extends Controller
         // echo '<pre>';print_r($con);echo '</pre>';
         // $results = $con->search()->users()->get();
         // echo '<pre>';print_r($results);echo '</pre>';
-        // $results = Adldap::getProvider('filial')->search()->users()->get();
-        // echo '<pre>';print_r($results);echo '</pre>';
-        $results = Adldap::getProvider('default')->search()->users()->get();
-        echo '<pre>';print_r($results);echo '</pre>';
+        echo 'TSM<br>';
+        $results = Adldap::getProvider('tsm')->search()->users()->get();
+        echo '<pre>';var_dump($results);echo '</pre>';
+        echo 'FILIAL<br>';
+        $results = Adldap::getProvider('filial')->search()->users()->get();
+        echo '<pre>';var_dump($results);echo '</pre>';
+        echo 'CORP<br>';
+        $results = Adldap::search()->users()->get();
+        echo '<pre>';var_dump($results);echo '</pre>';
         die();
 
         $username = 'cpavonmu';

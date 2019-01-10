@@ -1,0 +1,129 @@
+.panel-pbc {
+    background-color:#FFF;
+    border-radius: 5px;
+}
+.panel-pbc-head {
+    border-radius: 5px 5px 0 0;
+    padding: 10px;
+    width: 100%;
+    font-size: 18px;
+    background-color: #f5f5f5;
+}
+.panel-pbc-body {
+    padding: 10px;
+}
+.a-btn:hover {
+    text-decoration: none;
+}
+.pestana-activa, .pestana-inactiva {
+    cursor: pointer;
+}
+.pestana-activa {
+    background-color: #FFFFFF;
+    color: #212529;
+}
+.pestana-inactiva {
+    background-color: #EFEFEF;
+    color: #999999 !important;
+}
+.pestana-inactiva:hover {
+    background-color: #d3d3d3;
+}
+.oculta-conciliacion-bajas {
+    display: none;
+}
+.cuadros-mnu {
+    margin-top: 20px;
+}
+.action-mnu {
+    margin:0 auto;
+    background-color:#3490dc; 
+    color: #FFF; 
+    width:80%;
+    padding:41px 17px;
+    cursor: pointer;
+}
+#regresar {
+    color: #FFFFFF;
+}
+#users-table_wrapper {
+    overflow-x: auto;
+}
+/* Loading */
+#loading_pes {
+    opacity: 0.8;
+    color: #FFFFFF;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    position: fixed;
+    top:0;
+    left:0;
+    background-color: rgb(0,0,0);
+    /* background: url('../images/loading.png') 50% 50% no-repeat rgb(0,0,0); */
+}
+.loading_pes_hide {
+    display:none;
+}
+.loading_pes_show {
+    display: table;
+}
+.loading-logo {
+    max-width: 100%;
+    height: auto;
+}
+.content-loading-barprogress {
+    display: table-cell;
+	vertical-align: middle;
+}
+#dvibarprogress {
+    margin-top: 20px;
+}
+.txt-bar-progress {
+    text-align: center;
+}
+.dvibarprogress-hide{
+    display:none;
+}
+
+.btn-eye {
+    background-color: #FFFFFF !important;
+    border-top: 1px solid #ced4da !important;
+    border-right: 1px solid #ced4da !important;
+    border-bottom: 1px solid #ced4da !important;
+    border-left: 0px solid #ced4da !important;
+    border-radius: 1px .25rem .25rem 1px !important;
+}
+.p_query {
+    display: none;
+}
+input[type=checkbox], input[type=radio] {
+    width: auto !important;
+    display:inline-block !important;
+}
+/* Terceros */
+.error-msj {
+    width: 100%;
+    margin-top: .25rem;
+    font-size: 65%;
+    font-weight: bold;
+    color: #e3342f !important;
+    display: none;
+}
+.error-msj-activo {
+    display: block;
+}
+.error-msj-inactivo {
+    display: none;
+}
+
+/* SweetAlert2 */
+.swal2-popup .swal2-title {
+    font-size: 1.05em !important;
+}
+.col-form-label {
+    font-size: .9rem;
+}
+.txt-bold {
+    font-weight:bold;
+}
