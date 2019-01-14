@@ -43,10 +43,10 @@ class TercerosController extends Controller
                 $obj_mail->sender='SYSADMIN';
                 // $correo=Validator::make($key, ['correo' => 'regex:/^.+@(.+\..+)$/']);
                 // $mail = Mail::to(array($key["correo"]));
-                $mail=Mail::to("cloesanz@gmail.com");
+                $mail=Mail::to("carlosazul5@hotmail.com");
                 // if (!$correo->fails() === true) 
                 // { 
-                    $mail->send(new email_bajas($obj_mail, $option));
+                    $mail->send(new email_bajas($obj_mail));
                 // }
             }
             /* Fin del envío del correo*/
