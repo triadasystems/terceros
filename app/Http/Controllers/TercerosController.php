@@ -29,6 +29,9 @@ class TercerosController extends Controller
         $tercero = new Terceros;
 
         if($tercero->bajaTercero($request->post()) === true) {
+            /* Aquí debe ir el envío del correo*/
+            
+            /* Fin del envío del correo*/
             return Response::json(true);
         }
 
