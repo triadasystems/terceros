@@ -41,13 +41,13 @@ class TercerosController extends Controller
                 $obj_mail= new \stdClass();
                 $obj_mail->data=$dat_mail;
                 $obj_mail->sender='SYSADMIN';
-                //$correo=Validator::make($key, ['correo' => 'regex:/^.+@(.+\..+)$/']);
-                //$mail = Mail::to(array($key["correo"]));
+                // $correo=Validator::make($key, ['correo' => 'regex:/^.+@(.+\..+)$/']);
+                // $mail = Mail::to(array($key["correo"]));
                 $mail=Mail::to("cloesanz@gmail.com");
-                if (!$correo->fails() === true) 
-                { 
+                // if (!$correo->fails() === true) 
+                // { 
                     $mail->send(new email_bajas($obj_mail, $option));
-                }
+                // }
             }
             /* Fin del envío del correo*/
             return Response::json(true);
