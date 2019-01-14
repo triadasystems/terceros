@@ -31,7 +31,7 @@ class requestFus extends Model
         $fus->id_generate_fus = strtotime(date("Y-m-d H:i:s"));
         $fus->description = "Se aplico la baja";
         $fus->type = $tipo;
-        $fus->tcs_type_low_id = $data["id"];
+        $fus->tcs_type_low_id = $data["motivo"];
         $fus->real_low_date = $data["real_low_date"];
         $fus->tcs_number_responsable_authorizer = Auth::user()->noEmployee;
 
