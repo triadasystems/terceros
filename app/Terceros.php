@@ -91,4 +91,9 @@ class Terceros extends Model
         }
         return false;
     }
+    public static function b_tercero($data)
+    {
+        $tercero = Terceros::find($data["id"]);
+        return $tercero;
+    }
 }
