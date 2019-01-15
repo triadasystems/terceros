@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\mailSendModel;
 use App\Mail\email_bajas;
 use Illuminate\Support\Facades\Mail;
+use Validator;
 //-------------------------------------
 use App\Terceros;
 use App\TipoBajas;
