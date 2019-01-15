@@ -32,6 +32,7 @@ class requestFus extends Model
         $fus->description = "Se aplico la baja";
         $fus->type = $tipo;
         $fus->tcs_type_low_id = $data["motivo"];
+        $fus->tcs_external_employees_id = $data["id"];
         $fus->real_low_date = $data["real_low_date"];
         $fus->tcs_number_responsable_authorizer = Auth::user()->noEmployee;
 
