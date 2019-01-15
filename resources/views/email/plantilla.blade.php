@@ -22,14 +22,16 @@
                 <th><p><b>Motivo de la baja</b></p></th>
             </thead>
             <tbody>
+                @foreach($obj_mail->data as $val)
                 <tr>
-                    <td align="center">{{ $obj_mail[0]->fus }}</td>
-                    <td align="center">{{ $obj_mail[0]->id_externo }}</td>
-                    <td align="center">{{ $obj_mail[0]->nombre." ".$obj_mail[0]->a_paterno." ".$obj_mail[0]->a_materno }}</td>
-                    <td align="center">{{ $obj_mail[0]->empresa }}</td>
-                    <td align="center">{{ $obj_mail[0]->fecha_baja }}</td>
-                    <td align="center">{{ $obj_mail[0]->type }}</td>
+                    <td align="center">{{ $val["fus"]}}</td>
+                    <td align="center">{{ $val["id_externo"] }}</td>
+                    <td align="center">{{ $val["nombre"]." ".$val["a_paterno"]." ".$val["a_materno"] }}</td>
+                    <td align="center">{{ $val["empresa"] }}</td>
+                    <td align="center">{{ $val["fecha_baja"] }}</td>
+                    <td align="center">{{ $val["type"] }}</td>
                 </tr>
+                @endforeach
             </tbody>
         </table>
     </div>
