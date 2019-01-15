@@ -93,7 +93,12 @@ class Terceros extends Model
     }
     public static function b_tercero($data)
     {
-        $tercero = Terceros::find($data["id"]);
+        $tercero = Terceros::select("tcs_external_employees.id_external as id_externo" ,"tcs_external_employees.name as nombre","tcs_external_employees.lastname1 as a_paterno","tcs_external_employees.lastname2 as a_materno",
+        "tcs_request_fus.id_generate_fus as fus", "tcs_cat_suppliers.name as empresa", "tcs_request_fus.created_at as fecha_baja","tcs_type_low.type")
+        ->join("tcs_request_fus","tcs_external_employees.id","=","tcs_request_fus.tcs_external_employees_id")
+        ->join("tcs_cat_suppliers","tcs_external_employees.tcs_externo_proveedor","=","tcs_cat_suppliers.id")
+        ->join("tcs_type_low","tcs_request_fus.tcs_type_low_id","=","tcs_type_low.id")
+            ->where("tcs_external_employees.id", "=", $data)->get()->toArray();
         return $tercero;
     }
 }

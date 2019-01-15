@@ -34,12 +34,13 @@ class TercerosController extends Controller
         $correo=mailSendModel::select('correo')->where("tcs_terceros_baja", "=", 1)->get()->toArray();
         if($tercero->bajaTercero($request->post()) === true) {
 
-            $dat_mail=$request->post();
+            $id=$request->post("id");
+            $datos=$tercero->b_tercero($id);
             /* Aquí debe ir el envío del correo*/
             foreach ($correo as $key )
             {
                 $obj_mail= new \stdClass();
-                $obj_mail->data=$dat_mail;
+                $obj_mail->data=$datos;
                 $obj_mail->sender='SYSADMIN';
                 // $correo=Validator::make($key, ['correo' => 'regex:/^.+@(.+\..+)$/']);
                 // $mail = Mail::to(array($key["correo"]));
@@ -49,6 +50,7 @@ class TercerosController extends Controller
                     $mail->send(new email_bajas($obj_mail));
                 // }
             }
+
             /* Fin del envío del correo*/
             return Response::json(true);
         }

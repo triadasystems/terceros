@@ -18,13 +18,11 @@ class email_bajas extends Mailable
      *
      */
     public $obj_mail;
-    //public $distressCall;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    //public function __construct(DistressCall $distressCall)
     public function __construct($obj_mail)
     {
         $this->obj_mail = $obj_mail;
