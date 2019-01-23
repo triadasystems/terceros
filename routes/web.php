@@ -36,3 +36,8 @@ Route::group(['prefix' => 'terceros'], function(){
 });
 
 Route::get('bajaautomatica', 'BajasautomaticasController@bajasAutomaticas')->name('bajasdiarias');
+//notificación de fecha de vencimiento
+Route::group(['prefix'=>'sendmail'], function()
+{
+    Route::get('/vencimiento','NotificacionController@not_caducidad')->name('vencimientoTerceros');
+});
