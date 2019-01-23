@@ -125,4 +125,9 @@ class Terceros extends Model
 
         return substr($response, 0, -1);
     }
+    public function terceros_p_vencer($dias)
+    {
+        $tercero= Terceros::where('low_date','<=',DB::raw("(SELECT CURDATE() - INTERVAL $dias DAY)"))->get()->toArray();
+        return $tercero;
+    }
 }
