@@ -32,25 +32,23 @@ class TercerosController extends Controller
         ]);
         
         $tercero = new Terceros;
-        $correo=mailSendModel::select('correo')->where("tcs_terceros_baja", "=", 1)->get()->toArray();
+        $correo = mailSendModel::select('correo')->where("tcs_terceros_baja", "=", 1)->get()->toArray();
+        
         if($tercero->bajaTercero($request->post()) === true) {
 
-            $id=$request->post("id");
-            $datos=$tercero->b_tercero($id);
+            $id = $request->post("id");
+            $datos = $tercero->b_tercero($id);
             /* Aquí debe ir el envío del correo*/
-             foreach ($correo as $key )
-             {
-                $obj_mail= new \stdClass();
-                $obj_mail->data=$datos;
-                $obj_mail->sender='SYSADMIN';
-                $correo=Validator::make($key, ['correo' => 'regex:/^.+@(.+\..+)$/']);
+            foreach ($correo as $key ) {
+                $obj_mail = new \stdClass();
+                $obj_mail->data = $datos;
+                $obj_mail->sender ='SYSADMIN';
+                $correo = Validator::make($key, ['correo' => 'regex:/^.+@(.+\..+)$/']);
                 $mail = Mail::to(array($key["correo"]));
-                //$mail=Mail::to("carlosazul5@hotmail.com");
-                if (!$correo->fails() === true) 
-                { 
+                if (!$correo->fails() === true) { 
                     $mail->send(new email_bajas($obj_mail));
                 }
-             }
+            }
             /* Fin del envío del correo*/
             return Response::json(true);
         }

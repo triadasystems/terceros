@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\requestFus;
 use App\HistoricoTerceros;
 use App\ApplicationsEmployee;
+use Illuminate\Support\Facades\DB;
 
 class Terceros extends Model
 {
@@ -44,7 +45,7 @@ class Terceros extends Model
                         ->toArray();
     }
 
-    public function bajaTercero($data) {
+    public function bajaTercero($data, $forma = "manual") {
         $tercero = Terceros::find($data["id"]);
 
         $applicationsEmployee = new ApplicationsEmployee;
@@ -80,7 +81,7 @@ class Terceros extends Model
         
         if($tercero->save()) {
             $fus = new requestFus;
-            $id = $fus->altaFus(3, $data);
+            $id = $fus->altaFus(3, $data, $forma);
 
             if($id !== false) {
                 $historicoTercero = new HistoricoTerceros;
@@ -100,5 +101,28 @@ class Terceros extends Model
         ->join("tcs_type_low","tcs_request_fus.tcs_type_low_id","=","tcs_type_low.id")
             ->where("tcs_external_employees.id", "=", $data)->get()->toArray();
         return $tercero;
+    }
+
+    public function listaBajaDiaria() {
+        return Terceros::where("low_date", "=", DB::raw("CURDATE()"))->where("status", "=", 1)->get()->toArray();
+    }
+
+    public function bajasDiarias($terceros) {
+        $tercero = new Terceros;
+
+        $response = null;
+
+        foreach($terceros as $row) {
+            $data = array();
+            $data["motivo"] = 0;
+            $data["id"] = $row["id"];
+            $data["real_low_date"] = null;
+
+            if($tercero->bajaTercero($data, "automatica") === true) {
+                $response .= $row["id"].",";
+            }
+        }
+
+        return substr($response, 0, -1);
     }
 }

@@ -173,7 +173,8 @@
                             window.location.href = " route('homeajax') ";
                     }
                 }).fail(function(response){
-                    if (response.responseJSON !== undefined && response.responseJSON.errors.motivo && response.responseJSON.errors.motivo[0] != "") {
+                    console.log(response.responseJSON.errors);
+                    if (response.responseJSON !== undefined && response.responseJSON.errors != undefined && response.responseJSON.errors.motivo != undefined && response.responseJSON.errors.motivo[0] != "") {
                         mostrarError("motivo_baja");
                     }
                 });

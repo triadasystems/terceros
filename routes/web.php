@@ -34,3 +34,5 @@ Route::group(['prefix' => 'terceros'], function(){
 
     Route::post('/bajatercero', 'TercerosController@bajatercero')->name('bajatercero');
 });
+
+Route::get('bajaautomatica', 'BajasautomaticasController@bajasAutomaticas')->name('bajasdiarias');
