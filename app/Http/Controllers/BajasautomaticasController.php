@@ -19,7 +19,21 @@ class BajasautomaticasController extends Controller
         $listadoT = $terceros->listaBajaDiaria();
         $result = $terceros->bajasDiarias($listadoT);
 
+        /* Aquí debe ir el envío del correo*/
         $correo = mailSendModel::select('correo')->where("tcs_terceros_baja", "=", 1)->get()->toArray();
-        echo '<pre>';print_r($result);echo '</pre>';
+        $idTerceros = explode(",", $result);
+        $datos = Terceros::whereIn("id", $idTerceros)->get();
+        
+        foreach ($correo as $key ) {
+            $obj_mail = new \stdClass();
+            $obj_mail->data = $datos;
+            $obj_mail->sender ='SYSADMIN';
+            $correo = Validator::make($key, ['correo' => 'regex:/^.+@(.+\..+)$/']);
+            $mail = Mail::to(array($key["correo"]));
+            if (!$correo->fails() === true) { 
+                $mail->send(new email_bajas($obj_mail));
+            }
+        }
+        /* Fin del envío del correo*/
     }
 }
