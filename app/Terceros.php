@@ -145,6 +145,17 @@ class Terceros extends Model
         ->where("tcs_request_fus.type", "=", "3")
         ->get()->toArray();
 
+    public function terceros_p_vencer($dias)
+    {
+        $tercero= Terceros::select("tcs_external_employees.id_external, DATEDIFF(tcs_external_employees.low_date,CURDATE()) AS d_dif, 
+        CONCAT(tcs_external_employees.name,' ',tcs_external_employees.lastname1,' ',tcs_external_employees.lastname2) AS full_name, 
+        if(tcs_external_employees.badge_number IS NULL, 'S/N',tcs_external_employees.badge_number) AS gafete, 
+        tcs_external_employees.authorizing_name AS autorizador, 
+        tcs_external_employees.responsible_name AS responsable,
+        tcs_cat_suppliers.name AS empresa")
+        ->join('tcs_cat_suppliers','tcs_external_employees.tcs_externo_proveedor','=','tcs_cat_suppliers.id')
+        ->where('status','=','1')
+        ->where('low_date','<=',DB::raw("(SELECT CURDATE() - INTERVAL $dias DAY)"))->get()->toArray();
         return $tercero;
     }
 }
