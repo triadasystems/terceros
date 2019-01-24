@@ -27,7 +27,7 @@ class NotificacionController extends Controller
         $dia_limit = $data[0]['settings'];
         $b = new Terceros;
         $listado = $b->terceros_p_vencer($dia_limit);
-        echo "los dias son: "; print_r($listado);
+        echo "<pre>"; print_r($listado);echo "</pre>";
     }
     
 }
