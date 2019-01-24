@@ -99,7 +99,10 @@ class Terceros extends Model
         ->join("tcs_request_fus","tcs_external_employees.id","=","tcs_request_fus.tcs_external_employees_id")
         ->join("tcs_cat_suppliers","tcs_external_employees.tcs_externo_proveedor","=","tcs_cat_suppliers.id")
         ->join("tcs_type_low","tcs_request_fus.tcs_type_low_id","=","tcs_type_low.id")
-            ->where("tcs_external_employees.id", "=", $data)->get()->toArray();
+        ->where("tcs_external_employees.id", "=", $data)
+        ->where("tcs_request_fus.type", "=", "3")
+        ->get()->toArray();
+        
         return $tercero;
     }
 
