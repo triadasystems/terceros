@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 //-------------------------------------
 use App\mailSendModel;
-use App\Mail\email_bajas;
+use App\Mail\email_f_ven;
 use Illuminate\Support\Facades\Mail;
 use Validator;
 //-------------------------------------
@@ -27,7 +27,19 @@ class NotificacionController extends Controller
         $dia_limit = $data[0]['settings'];
         $b = new Terceros;
         $listado = $b->terceros_p_vencer($dia_limit);
-        echo "<pre>"; print_r($listado);echo "</pre>";
+
+        $correo = mailSendModel::select('correo')->where("tcs_terceros_baja", "=", 1)->get()->toArray();
+        print_r($correo);
+        foreach ($correo as $key ) {
+            $obj_mail = new \stdClass();
+            $obj_mail->data = $datos;
+            $obj_mail->sender ='SYSADMIN';
+            $correo = Validator::make($key, ['correo' => 'regex:/^.+@(.+\..+)$/']);
+            $mail = Mail::to(array($key["correo"]));
+            if (!$correo->fails() === true) { 
+                $mail->send(new email_f_ven($obj_mail));
+            }
+        }
     }
     
 }
