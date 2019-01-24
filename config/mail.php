@@ -86,7 +86,7 @@ return [
 
     'username' => 'sysadmin@televisa.com.mx',
 
-    'password' => '',
+    'password' => null,
 
     /*
     |--------------------------------------------------------------------------
