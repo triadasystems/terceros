@@ -3,14 +3,14 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Notificación de baja</title>
+    <title>Notificación de alerta de</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
     <script src="main.js"></script>
 </head>
 <body>
-    <p>Notificación de baja</p>
-    <p>El siguiente usuario ha sido dado de baja</p>
+    <p>Notificación de periodo de alerta de vencimiento</p>
+    <p>La siguiente lista muestra los usuarios que estan proximos a ser dados de baja</p>
     <div>
         <table border="1">
             <thead bgcolor="#fcfcfc">
