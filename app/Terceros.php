@@ -151,7 +151,8 @@ class Terceros extends Model
 
     public function terceros_p_vencer($dias)
     {
-        $tercero= Terceros::select("tcs_external_employees.id_external", DB::raw("DATEDIFF(tcs_external_employees.low_date, CURDATE()) AS d_dif"), 
+        $tercero= Terceros::select("tcs_external_employees.id_external AS emp_keyemp", 
+        DB::raw("DATEDIFF(tcs_external_employees.low_date, CURDATE()) AS d_dif"), 
         DB::raw("CONCAT(tcs_external_employees.name,' ',tcs_external_employees.lastname1,' ',tcs_external_employees.lastname2) AS full_name"), 
         DB::raw("if(tcs_external_employees.badge_number IS NULL, 'S/N',tcs_external_employees.badge_number) AS gafete"), 
         "tcs_external_employees.authorizing_name AS autorizador", 
