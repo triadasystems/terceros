@@ -22,7 +22,9 @@ class BajasautomaticasController extends Controller
         /* Aquí debe ir el envío del correo*/
         $correo = mailSendModel::select('correo')->where("tcs_terceros_baja", "=", 1)->get()->toArray();
         $idTerceros = explode(",", $result);
-        $datos = Terceros::whereIn("id", $idTerceros)->get();
+        
+        $listaTercerosBajas = new Terceros;
+        $datos = $listaTercerosBajas->b_tercero_automaticas($idTerceros);
         
         foreach ($correo as $key ) {
             $obj_mail = new \stdClass();
