@@ -131,7 +131,7 @@ class Terceros extends Model
 
     public static function b_tercero_automaticas($data)
     {
-        $tercero = Terceros::select(
+        return Terceros::select(
             "tcs_external_employees.id_external as id_externo" ,
             "tcs_external_employees.name as nombre",
             "tcs_external_employees.lastname1 as a_paterno",
@@ -148,7 +148,7 @@ class Terceros extends Model
         ->where("tcs_request_fus.type", "=", "3")
         ->get()->toArray();
     }
-    
+
     public function terceros_p_vencer($dias)
     {
         $tercero= Terceros::select("tcs_external_employees.id_external, DATEDIFF(tcs_external_employees.low_date,CURDATE()) AS d_dif, 
