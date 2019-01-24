@@ -107,7 +107,7 @@ class Terceros extends Model
     }
 
     public function listaBajaDiaria() {
-        return Terceros::where("low_date", "=", DB::raw("CURDATE()"))->where("status", "=", 1)->get()->toArray();
+        return Terceros::where("low_date", "=", DB::raw("DATE_ADD(CURDATE(), INTERVAL -1 DAY)"))->where("status", "=", 1)->get()->toArray();
     }
 
     public function bajasDiarias($terceros) {
