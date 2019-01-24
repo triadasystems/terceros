@@ -7,7 +7,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class email_bajas extends Mailable
+class email_f_ven extends Mailable
 {
     use Queueable, SerializesModels;
      
@@ -41,7 +41,7 @@ class email_bajas extends Mailable
                     ->addTextHeader('Custom-Header', 'Notificación de periodo de alerta de vencimiento');
         });
         return $this->from('sysadmin@televisa.com.mx')
-                    ->view('email.plantilla')
+                    ->view('email.alerta_vencimiento')
                     -> subject ('Notificación de periodo de alerta de vencimiento');
     }
 }
