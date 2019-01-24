@@ -10,7 +10,7 @@
 </head>
 <body>
     <p>Notificación de baja</p>
-    <p>El siguiente usuario ha sido dado de baja</p>
+    <p>La siguiente lista muestra los usuarios dados de baja</p>
     <div>
         <table border="1">
             <thead bgcolor="#fcfcfc">
