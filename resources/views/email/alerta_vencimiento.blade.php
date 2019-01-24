@@ -28,7 +28,6 @@
                     <td align="center">{{ $val["emp_keyemp"]}}</td>
                     <td align="center">{{ $val["full_name"] }}</td>
                     <td align="center">{{ $val["gafete"] }}</td>
-                    <td align="center">{{ $val["empresa"] }}</td>
                     <td align="center">{{ $val["autorizador"] }}</td>
                     <td align="center">{{ $val["responsable"] }}</td>
                     <td align="center">{{ $val["empresa"] }}</td>
