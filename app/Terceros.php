@@ -147,7 +147,8 @@ class Terceros extends Model
         ->whereIn("tcs_external_employees.id", $data)
         ->where("tcs_request_fus.type", "=", "3")
         ->get()->toArray();
-
+    }
+    
     public function terceros_p_vencer($dias)
     {
         $tercero= Terceros::select("tcs_external_employees.id_external, DATEDIFF(tcs_external_employees.low_date,CURDATE()) AS d_dif, 

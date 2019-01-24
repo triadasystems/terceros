@@ -26,15 +26,19 @@ class BajasautomaticasController extends Controller
         $listaTercerosBajas = new Terceros;
         $datos = $listaTercerosBajas->b_tercero_automaticas($idTerceros);
         
-        foreach ($correo as $key ) {
-            $obj_mail = new \stdClass();
-            $obj_mail->data = $datos;
-            $obj_mail->sender ='SYSADMIN';
-            $correo = Validator::make($key, ['correo' => 'regex:/^.+@(.+\..+)$/']);
-            $mail = Mail::to(array($key["correo"]));
-            if (!$correo->fails() === true) { 
-                $mail->send(new email_bajas($obj_mail));
+        if(count($datos) > 0) {
+            foreach ($correo as $key ) {
+                $obj_mail = new \stdClass();
+                $obj_mail->data = $datos;
+                $obj_mail->sender ='SYSADMIN';
+                $correo = Validator::make($key, ['correo' => 'regex:/^.+@(.+\..+)$/']);
+                $mail = Mail::to(array($key["correo"]));
+                if (!$correo->fails() === true) { 
+                    $mail->send(new email_bajas($obj_mail));
+                }
             }
+        } else {
+            echo "perro";
         }
         /* Fin del envío del correo*/
     }
