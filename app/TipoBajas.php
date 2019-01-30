@@ -19,6 +19,6 @@ class TipoBajas extends Model
     public $timestamps = false;
     
     public function tiposBajas() {
-        return TipoBajas::where("code", "<>", 0)->get()->toArray();
+        return TipoBajas::where("code", "<>", 0)->where("status", "=", "Activo")->get()->toArray();
     }
 }
