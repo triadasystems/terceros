@@ -63,8 +63,8 @@ class NotificacionController extends Controller {
                     $obj_mail = new \stdClass();
                     $obj_mail->data = $listado;
                     $obj_mail->sender ='SYSADMIN';
-                    $correo = Validator::make($key, ['correo' => 'regex:/^.+@(.+\..+)$/']);
-                    $mail = Mail::to(array($key["correo"]));
+                    $correo = Validator::make($key, ['email' => 'regex:/^.+@(.+\..+)$/']);
+                    $mail = Mail::to(array($key["email"]));
                     if (!$correo->fails() === true) { 
                         $mail->send(new email_f_ven($obj_mail));
                     }
