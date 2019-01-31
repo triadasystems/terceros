@@ -55,7 +55,7 @@ class NotificacionController extends Controller {
         // Proximos a ser dados de bajas
         $b = new Terceros;
         $getResponsables = $b->getResponsablesNotificacionBaja($dia_limit);
-              
+        
         try {
             if(count($getResponsables["mails"]) > 0) {
                 foreach ($getResponsables["mails"] as $key) {

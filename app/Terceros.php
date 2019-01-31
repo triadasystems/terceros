@@ -185,11 +185,11 @@ class Terceros extends Model
         ->where('tcs_external_employees.low_date','<=',DB::raw("(SELECT CURDATE() + INTERVAL $dias DAY)"))
         ->where(function($condition){
             $condition->where("tcs_external_employees.authorizing_number", "=", $this->numberEmployee)
-                ->whereOr("tcs_external_employees.responsible_number", "=", $this->numberEmployee);
+                ->orWhere("tcs_external_employees.responsible_number", "=", $this->numberEmployee);
         })
         ->get()
         ->toArray();
-        
+
         return $tercero;
     }
 
