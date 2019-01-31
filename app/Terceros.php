@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\requestFus;
 use App\HistoricoTerceros;
 use App\ApplicationsEmployee;
+use App\ActivedirectoryEmployees;
 use Illuminate\Support\Facades\DB;
 
 class Terceros extends Model
@@ -33,6 +34,8 @@ class Terceros extends Model
     protected $hidden = [
         'tcs_subfijo_id', 'tcs_externo_proveedor',
     ];
+
+    public $numberEmployee;
 
     public $timestamps = false;
     
@@ -149,18 +152,73 @@ class Terceros extends Model
         ->get()->toArray();
     }
 
-    public function terceros_p_vencer($dias)
-    {
-        $tercero= Terceros::select("tcs_external_employees.id_external AS emp_keyemp", 
-        DB::raw("DATEDIFF(tcs_external_employees.low_date, CURDATE()) AS d_dif"), 
-        DB::raw("CONCAT(tcs_external_employees.name,' ',tcs_external_employees.lastname1,' ',tcs_external_employees.lastname2) AS full_name"), 
-        DB::raw("if(tcs_external_employees.badge_number IS NULL, 'S/N',tcs_external_employees.badge_number) AS gafete"), 
-        "tcs_external_employees.authorizing_name AS autorizador", 
-        "tcs_external_employees.responsible_name AS responsable",
-        "tcs_cat_suppliers.name AS empresa")
+    public function terceros_p_vencer($dias) {
+        $tercero= Terceros::select(
+            "tcs_external_employees.id_external AS emp_keyemp", 
+            DB::raw("DATEDIFF(tcs_external_employees.low_date, CURDATE()) AS d_dif"), 
+            DB::raw("CONCAT(tcs_external_employees.name,' ',tcs_external_employees.lastname1,' ',tcs_external_employees.lastname2) AS full_name"), 
+            DB::raw("if(tcs_external_employees.badge_number IS NULL, 'S/N',tcs_external_employees.badge_number) AS gafete"), 
+            "tcs_external_employees.authorizing_name AS autorizador", 
+            "tcs_external_employees.responsible_name AS responsable",
+            "tcs_cat_suppliers.name AS empresa"
+        )
         ->join('tcs_cat_suppliers','tcs_external_employees.tcs_externo_proveedor','=','tcs_cat_suppliers.id')
         ->where('tcs_external_employees.status','=','1')
         ->where('tcs_external_employees.low_date','<=',DB::raw("(SELECT CURDATE() + INTERVAL $dias DAY)"))->get()->toArray();
         return $tercero;
+    }
+
+    public function terceros_p_vencer_byNumber($dias, $number) {
+        $this->numberEmployee = $number;
+        
+        $tercero = Terceros::select(
+            "tcs_external_employees.id_external AS emp_keyemp", 
+            DB::raw("DATEDIFF(tcs_external_employees.low_date, CURDATE()) AS d_dif"), 
+            DB::raw("CONCAT(tcs_external_employees.name,' ',tcs_external_employees.lastname1,' ',tcs_external_employees.lastname2) AS full_name"), 
+            DB::raw("if(tcs_external_employees.badge_number IS NULL, 'S/N',tcs_external_employees.badge_number) AS gafete"), 
+            "tcs_external_employees.authorizing_name AS autorizador", 
+            "tcs_external_employees.responsible_name AS responsable",
+            "tcs_cat_suppliers.name AS empresa"
+        )
+        ->join('tcs_cat_suppliers','tcs_external_employees.tcs_externo_proveedor','=','tcs_cat_suppliers.id')
+        ->where('tcs_external_employees.status','=','1')
+        ->where('tcs_external_employees.low_date','<=',DB::raw("(SELECT CURDATE() + INTERVAL $dias DAY)"))
+        ->where(function($condition){
+            $condition->where("tcs_external_employees.authorizing_number", "=", $this->numberEmployee)
+                ->whereOr("tcs_external_employees.responsible_number", "=", $this->numberEmployee);
+        })
+        ->get()
+        ->toArray();
+        
+        return $tercero;
+    }
+
+    public function getResponsablesNotificacionBaja($dias) {
+        $tercero = Terceros::select(
+            "tcs_external_employees.authorizing_number", 
+            "tcs_external_employees.responsible_number"
+        )
+        ->join('tcs_cat_suppliers','tcs_external_employees.tcs_externo_proveedor','=','tcs_cat_suppliers.id')
+        ->where('tcs_external_employees.status','=','1')
+        ->where('tcs_external_employees.low_date','<=',DB::raw("(SELECT CURDATE() + INTERVAL $dias DAY)"))->get()->toArray();
+        
+        $responsables = array();
+
+        foreach($tercero as $index => $row) {
+            if (!in_array($row["authorizing_number"], $responsables)) {
+                $responsables[] = $row["authorizing_number"];
+            }
+            if (!in_array($row["responsible_number"], $responsables)) {
+                $responsables[] = $row["responsible_number"];
+            }
+        }
+
+        $correo = new ActivedirectoryEmployees;
+
+        $response = array();
+        $response["numbers"] = $responsables;
+        $response["mails"] = $correo->getmails($responsables);
+
+        return $response;
     }
 }
