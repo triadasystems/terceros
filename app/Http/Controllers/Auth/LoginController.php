@@ -13,6 +13,7 @@ use Adldap\Laravel\Facades\Adldap;
 
 use App\TCSUsersSessions;
 use App\InterfaceLabora;
+use App\Comparelaboraconcilia;
 // use Illuminate\Support\Facades\DB;
 
 class LoginController extends Controller    
@@ -62,29 +63,6 @@ class LoginController extends Controller
         ]);
     }
 
-    public function prueba($idEmp)
-    {
-
-        $con = InterfaceLabora::Join('applications', 'applications.id', '=', 'interface_labora.origen_id')->where('employee_number', '=', $idEmp)->get()->toArray();
-        
-        // $query = '
-        //     SELECT 
-        //         * 
-        //     FROM 
-        //         interface_labora AS ai
-        //     INNER JOIN 
-        //         applications AS app ON ai.origen_id=app.id
-        //     WHERE 
-        //         consecutive = (SELECT max(consecutive) FROM interface_labora) 
-        //     AND 
-        //         employee_number = '.$idEmp.'
-        //     LIMIT 1
-        // ';        
-        // $con = DB::connection('mysql2')->select(DB::raw($query));
-
-        return count($con);
-    }
-
     protected function attemptLogin(Request $request)
     {
         $response = array();
@@ -96,15 +74,6 @@ class LoginController extends Controller
         $password = $credentials['password'];
         $noEmployee = $credentials['extensionAttribute15'];
 
-        if ($this->prueba($noEmployee) == 0) {
-            $response['status'] = false;
-            $response['noEmp'] = false;
-
-            return $response;
-        } else {
-            $response['noEmp'] = true;
-        }
-
         // $user_format = env('LDAP_USER_FORMAT', 'cn=%s,'.env('LDAP_BASE_DN', ''));
         // $userdn = sprintf($user_format, $username);
 
@@ -114,12 +83,31 @@ class LoginController extends Controller
 
         if (Adldap::getProvider('default')->auth()->attempt($username, $password, $bindAsUser = true)) {
             $auth = true;
+            $datos = Adldap::getProvider('default')->search()->users()->find($username);
         } else if (Adldap::getProvider('filial')->auth()->attempt($username, $password, $bindAsUser = true)) {
             $auth = true;
+            $datos = Adldap::getProvider('filial')->search()->users()->find($username);
         } else if(Adldap::getProvider('tsm')->auth()->attempt($username, $password, $bindAsUser = true)) {
             $auth = true;
+            $datos = Adldap::getProvider('tsm')->search()->users()->find($username);
         } else {
             $auth = false;
+        }
+
+        if (!isset($datos["attributes"]["extensionattribute15"])) {
+            $response['status'] = false;
+            $response['noEmp'] = false;
+
+            return $response;
+        } else {
+            if(count($datos["attributes"]["extensionattribute15"]) > 0) {
+                $response['noEmp'] = true;
+            } else {
+                $response['status'] = false;
+                $response['noEmp'] = false;
+
+                return $response;
+            }
         }
 
         if ($auth === true) {

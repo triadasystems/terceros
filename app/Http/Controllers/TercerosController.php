@@ -15,6 +15,12 @@ use Illuminate\Support\Facades\Response;
 
 class TercerosController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index(TipoBajas $TipoBajas) {
         $tiposB = $TipoBajas->tiposBajas();
         return view('bajas.lista')->with(["tiposBajas" => $tiposB]);
