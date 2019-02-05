@@ -40,12 +40,29 @@ class Terceros extends Model
     public $timestamps = false;
     
     public function tercerosAsignados($noBadge = null) {
-        return Terceros::where("authorizing_number", "=", $noBadge)
-                        ->where("status", "=", "1")
-                        ->orWhere("responsible_number", "=", $noBadge)
-                        ->where("status", "=", "1")
-                        ->get()
-                        ->toArray();
+        return Terceros::select(
+            'id',
+            'id_external',
+            'name',
+            'lastname1',
+            'lastname2',
+            DB::raw("DATE_FORMAT(initial_date, '%d-%m-%Y') AS initial_date"),
+            DB::raw("DATE_FORMAT(low_date, '%d-%m-%Y') AS low_date"),
+            'badge_number',
+            'email',
+            'authorizing_name',
+            'authorizing_number',
+            'responsible_name',
+            'responsible_number',
+            'created_at',
+            'status'
+        )
+        ->where("authorizing_number", "=", $noBadge)
+        ->where("status", "=", "1")
+        ->orWhere("responsible_number", "=", $noBadge)
+        ->where("status", "=", "1")
+        ->get()
+        ->toArray();
     }
 
     public function bajaTercero($data, $forma = "manual") {
