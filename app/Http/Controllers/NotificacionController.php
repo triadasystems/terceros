@@ -51,7 +51,7 @@ class NotificacionController extends Controller {
         $a = new setting;
         $data = $a->recuperar_dias();
         $dia_limit = $data[0]['settings'];
-        
+
         // Proximos a ser dados de bajas
         $b = new Terceros;
         $getResponsables = $b->getResponsablesNotificacionBaja($dia_limit);

@@ -23,10 +23,6 @@ class Terceros extends Model
         'low_date',
         'badge_number',
         'email',
-        'authorizing_name',
-        'authorizing_number',
-        'responsible_name',
-        'responsible_number',
         'created_at',
         'status',
     ];
@@ -205,22 +201,23 @@ class Terceros extends Model
 
     public function getResponsablesNotificacionBaja($dias) {
         $tercero = Terceros::select(
-            "tcs_external_employees.authorizing_number", 
-            "tcs_external_employees.responsible_number"
+            'tcs_autorizador_responsable.name',
+            'tcs_autorizador_responsable.number',
+            'tcs_autorizador_responsable.type'
         )
         ->join('tcs_cat_suppliers','tcs_external_employees.tcs_externo_proveedor','=','tcs_cat_suppliers.id')
+        ->join('tcs_request_fus','tcs_request_fus.tcs_external_employees_id', '=', 'tcs_external_employees.id')
+        ->join('tcs_autorizador_responsable','tcs_autorizador_responsable.tcs_request_fus_id', '=', 'tcs_request_fus.id')
         ->where('tcs_external_employees.status','=','1')
-        ->where('tcs_external_employees.low_date','<=',DB::raw("(SELECT CURDATE() + INTERVAL $dias DAY)"))->get()->toArray();
+        ->where('tcs_external_employees.low_date','<=',DB::raw("(SELECT CURDATE() + INTERVAL $dias DAY)"))
+        ->distinct()
+        ->get()
+        ->toArray();
         
         $responsables = array();
 
         foreach($tercero as $index => $row) {
-            if (!in_array($row["authorizing_number"], $responsables)) {
-                $responsables[] = $row["authorizing_number"];
-            }
-            if (!in_array($row["responsible_number"], $responsables)) {
-                $responsables[] = $row["responsible_number"];
-            }
+            $responsables[] = $row["number"];
         }
 
         $correo = new ActivedirectoryEmployees;
