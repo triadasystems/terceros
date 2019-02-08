@@ -129,56 +129,67 @@
             var fechaRealBaja = $("#real_low_date").val();
             var badgeN = $(this).attr("data-badge-number");
             var email = $(this).attr("data-email");
+            var idTercero = $("#id_tercero").val();
 
-            if (motivo == null || motivo == "") {
-                mostrarError("motivo_baja");
-            } else {
-                ocultarError("motivo_baja");
-                
-                var idTercero = $("#id_tercero").val();
-
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-                });
-
-                $.ajax({
-                    type: 'POST',
-                    data: { id: idTercero, motivo: motivo, real_low_date: fechaRealBaja, email: email, badge_number: badgeN },
-                    dataType: 'JSON',
-                    url: '{{ route("bajatercero") }}',
-                    async: false,
-                    beforeSend: function(){
-                        console.log("Cargando");
-                    },
-                    complete: function(){
-                        console.log("Listo");
-                    }
-                }).done(function(response){
-                    if(response === true) {
-                        table.ajax.reload();
-                        swal(
-                            'Bajas Aplicada',
-                            'La operación se ha realizado con éxito',
-                            'success'
-                        )
-                    } else if(response === false) {
-                        swal(
-                            'Error',
-                            'La operación no pudo ser realizada',
-                            'error'
-                        )
-                    } else if(response == "middleUpgrade") {
-                            window.location.href = " route('homeajax') ";
-                    }
-                }).fail(function(response){
-                    console.log(response.responseJSON.errors);
-                    if (response.responseJSON !== undefined && response.responseJSON.errors != undefined && response.responseJSON.errors.motivo != undefined && response.responseJSON.errors.motivo[0] != "") {
+            swal({
+                title: '¿Esta seguro?',
+                text: "El usuario será dado de baja",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Aceptar'
+            }).then((result) => {
+                if (result.value) {
+                    if (motivo == null || motivo == "") {
                         mostrarError("motivo_baja");
+                    } else {
+                        ocultarError("motivo_baja");
+
+                        $.ajaxSetup({
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            }
+                        });
+
+                        $.ajax({
+                            type: 'POST',
+                            data: { id: idTercero, motivo: motivo, real_low_date: fechaRealBaja, email: email, badge_number: badgeN },
+                            dataType: 'JSON',
+                            url: '{{ route("bajatercero") }}',
+                            async: false,
+                            beforeSend: function(){
+                                console.log("Cargando");
+                            },
+                            complete: function(){
+                                console.log("Listo");
+                            }
+                        }).done(function(response){
+                            if(response === true) {
+                                table.ajax.reload();
+                                swal(
+                                    'Bajas Aplicada',
+                                    'La operación se ha realizado con éxito',
+                                    'success'
+                                )
+                            } else if(response === false) {
+                                swal(
+                                    'Error',
+                                    'La operación no pudo ser realizada',
+                                    'error'
+                                )
+                            } else if(response == "middleUpgrade") {
+                                    window.location.href = " route('homeajax') ";
+                            }
+                        }).fail(function(response){
+                            console.log(response.responseJSON.errors);
+                            if (response.responseJSON !== undefined && response.responseJSON.errors != undefined && response.responseJSON.errors.motivo != undefined && response.responseJSON.errors.motivo[0] != "") {
+                                mostrarError("motivo_baja");
+                            }
+                        });
                     }
-                });
-            }
+                }
+            });
         });
 
         // @if(session('confirmacion'))
