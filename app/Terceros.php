@@ -50,17 +50,10 @@ class Terceros extends Model
             DB::raw("DATE_FORMAT(low_date, '%d-%m-%Y') AS low_date"),
             'badge_number',
             'email',
-            'authorizing_name',
-            'authorizing_number',
-            'responsible_name',
-            'responsible_number',
             'created_at',
             'status'
         )
-        ->where("authorizing_number", "=", $noBadge)
-        ->where("status", "=", "1")
-        ->orWhere("responsible_number", "=", $noBadge)
-        ->where("status", "=", "1")
+        ->where("status", "=", 1)
         ->get()
         ->toArray();
     }
@@ -85,10 +78,10 @@ class Terceros extends Model
             "low_date" => $tercero->low_date,
             "badge_number" => $tercero->badge_number,
             "email" => $tercero->email,
-            "authorizing_name" => $tercero->authorizing_name,
-            "authorizing_number" => $tercero->authorizing_number,
-            "responsible_name" => $tercero->responsible_name,
-            "responsible_number" => $tercero->responsible_number,
+            "authorizing_name" => "PENDIENTE",
+            "authorizing_number" => 123,
+            "responsible_name" => "PENDIENTE",
+            "responsible_number" => 123,
             "created_at" => $tercero->created_at,
             "status" => $tercero->status,
             "tcs_fus_ext_hist" => $tercero->tcs_fus_ext_hist,

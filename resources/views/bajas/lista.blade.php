@@ -17,9 +17,9 @@
                                         <th>Nombre del Tercero</th>
                                         <th># Gafete del Tercero</th>
                                         <th>E-mail del Tercero</th>
-                                        <th>Autorizador #</th>
+                                        <!-- <th>Autorizador #</th> -->
                                         <!-- <th># Autorizador</th> -->
-                                        <th>Responsable #</th>
+                                        <!-- <th>Responsable #</th> -->
                                         <!-- <th># Responsable</th> -->
                                         <th>Acciones</th>
                                     </tr>
@@ -229,18 +229,18 @@
                 },
                 { data: 'badge_number', name: 'badge_number' },
                 { data: 'email', name: 'email' },
-                {
-                    render: function (data, type, row) {
-                        var autorizador = row.authorizing_name+' | '+row.authorizing_number;
-                        return autorizador;
-                    }
-                },
-                {
-                    render: function (data, type, row) {
-                        var reponsable = row.responsible_name+' | '+row.responsible_number;
-                        return reponsable;
-                    }
-                },
+                // {
+                //     render: function (data, type, row) {
+                //         var autorizador = row.authorizing_name+' | '+row.authorizing_number;
+                //         return autorizador;
+                //     }
+                // },
+                // {
+                //     render: function (data, type, row) {
+                //         var reponsable = row.responsible_name+' | '+row.responsible_number;
+                //         return reponsable;
+                //     }
+                // },
                 {
                     targets: -1,
                     render: function (data, type, row) {
