@@ -65,6 +65,56 @@ class Terceros extends Model
             $aplicacionesDelTercero .= $row["applications_id"].",";
         }
 
+        $response = array();
+
+        // foreach($activos as $key => $value) {
+        $auto_resp = requestFus::select(
+            'name',
+            'number',
+            'tcs_autorizador_responsable.type AS tipo'
+        )
+        ->join(
+            "tcs_autorizador_responsable",
+            "tcs_autorizador_responsable.tcs_request_fus_id", 
+            "=",
+            "tcs_request_fus.id"
+        )
+        ->where("tcs_external_employees_id", "=", $data["id"])
+        ->where("tcs_request_fus.type", "=", 1)
+        ->where("tcs_autorizador_responsable.status", "=", 1)
+        ->distinct()
+        ->get()
+        ->toArray();
+        
+        $autorizador = '';
+        $responsable = '';
+
+        foreach($auto_resp as $ind => $val) {
+            switch ($val["tipo"]) {
+                case 1:
+                    if(!isset($autorizador)) {
+                        $autorizador = $val["name"]." | ".$val["number"].",";
+                    } else {
+                        $autorizador .= $val["name"]." | ".$val["number"].",";
+                    }
+                
+                    break;    
+                case 2:
+                    if(!isset($responsable)) {
+                        $responsable = $val["name"]." | ".$val["number"].",";
+                    } else {
+                        $responsable .= $val["name"]." | ".$val["number"].",";
+                    }
+                    
+                    break;
+            }
+        }
+        
+        $response["autorizador"] = substr($autorizador, 0, -1);
+        $response["responsable"] = substr($responsable, 0, -1);
+        
+        // }
+
         $dataHistorico = array(
             "id_external" => $tercero->id_external,
             "name" => $tercero->name,
@@ -74,10 +124,10 @@ class Terceros extends Model
             "low_date" => $tercero->low_date,
             "badge_number" => $tercero->badge_number,
             "email" => $tercero->email,
-            "authorizing_name" => "PENDIENTE",
-            "authorizing_number" => 123,
-            "responsible_name" => "PENDIENTE",
-            "responsible_number" => 123,
+            "authorizing_name" => $response["autorizador"],
+            "authorizing_number" => null,
+            "responsible_name" => $response["responsable"],
+            "responsible_number" => null,
             "created_at" => $tercero->created_at,
             "status" => $tercero->status,
             "tcs_fus_ext_hist" => $tercero->tcs_fus_ext_hist,
@@ -121,9 +171,7 @@ class Terceros extends Model
 
     public function bajasDiarias($terceros) {
         $tercero = new Terceros;
-
         $response = null;
-
         foreach($terceros as $row) {
             $data = array();
             $data["motivo"] = 0;
