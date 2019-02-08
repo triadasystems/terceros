@@ -40,17 +40,35 @@ return [
             'foreign_key_constraints' => env('DB_FOREIGN_KEYS', true),
         ],
 
+        // 'mysql' => [
+        //     'driver' => 'mysql',
+        //     'host' => '10.7.6.177',
+        //     'port' => '3306',
+        //     'database' => 'pes2018_prod',
+        //     // 'database' => 'test',
+        //     'username' => 'triada',
+        //     'password' => 'Syst3m18',
+        //     'charset' => 'latin1',
+        //     'collation' => 'latin1_bin',
+        //     'unix_socket' => '',
+        //     // 'charset' => 'utf8mb4',
+        //     // 'collation' => 'utf8mb4_unicode_ci',
+        //     'prefix' => '',
+        //     'strict' => true,
+        //     'engine' => null,
+        //     'encriptado' => true,
+        // ],
+
         'mysql' => [
             'driver' => 'mysql',
-            'host' => '10.7.6.177',
-            'port' => '3306',
-            'database' => 'pes2018_prod',
-            // 'database' => 'test',
-            'username' => 'triada',
-            'password' => 'Syst3m18',
+            'host' => '10.7.15.205',
+            'port' => '3329',
+            'database' => 'portal_pcb', // inxdix_pes
+            'username' => 'template', // triada template
+            'password' => 't3mpl4t#pC8tv547', // Syst3m18 Pa$$w0rd01
             'charset' => 'latin1',
             'collation' => 'latin1_bin',
-            'unix_socket' => '',
+            'unix_socket' => env('DB_SOCKET', ''),
             // 'charset' => 'utf8mb4',
             // 'collation' => 'utf8mb4_unicode_ci',
             'prefix' => '',
