@@ -178,6 +178,7 @@ class Terceros extends Model
         $this->numberEmployee = $number;
         
         $tercero = Terceros::select(
+            "tcs_external_employees.id AS id",
             "tcs_external_employees.id_external AS emp_keyemp", 
             DB::raw("DATEDIFF(tcs_external_employees.low_date, CURDATE()) AS d_dif"), 
             DB::raw("CONCAT(tcs_external_employees.name,' ',tcs_external_employees.lastname1,' ',tcs_external_employees.lastname2) AS full_name"), 
@@ -189,14 +190,64 @@ class Terceros extends Model
         ->join('tcs_cat_suppliers','tcs_external_employees.tcs_externo_proveedor','=','tcs_cat_suppliers.id')
         ->where('tcs_external_employees.status','=','1')
         ->where('tcs_external_employees.low_date','<=',DB::raw("(SELECT CURDATE() + INTERVAL $dias DAY)"))
-        ->where(function($condition){
-            $condition->where("tcs_external_employees.authorizing_number", "=", $this->numberEmployee)
-                ->orWhere("tcs_external_employees.responsible_number", "=", $this->numberEmployee);
-        })
+        // ->where(function($condition){
+        //     $condition->where("tcs_external_employees.authorizing_number", "=", $this->numberEmployee)
+        //         ->orWhere("tcs_external_employees.responsible_number", "=", $this->numberEmployee);
+        // })
         ->get()
         ->toArray();
 
-        return $tercero;
+        // return $tercero;
+
+        $response = array();
+
+        foreach($tercero as $key => $value) {
+            $auto_resp = requestFus::select(
+                'name',
+                'number',
+                'tcs_autorizador_responsable.type AS tipo'
+            )
+            ->join(
+                "tcs_autorizador_responsable",
+                "tcs_autorizador_responsable.tcs_request_fus_id", 
+                "=",
+                "tcs_request_fus.id"
+            )
+            ->where("tcs_external_employees_id", "=", $value["id"])
+            ->where("tcs_request_fus.type", "=", 1)
+            ->where("tcs_autorizador_responsable.status", "=", 1)
+            ->distinct()
+            ->get()
+            ->toArray();
+            
+            foreach($auto_resp as $ind => $val) {
+                switch ($val["tipo"]) {
+                    case 1:
+                        if(!isset($value["autorizador"])) {
+                            $value["autorizador"] = $val["name"]." | ".$val["number"].",";
+                        } else {
+                            $value["autorizador"] .= $val["name"]." | ".$val["number"].",";
+                        }
+                    
+                        break;    
+                    case 2:
+                        if(!isset($value["responsable"])) {
+                            $value["responsable"] = $val["name"]." | ".$val["number"].",";
+                        } else {
+                            $value["responsable"] .= $val["name"]." | ".$val["number"].",";
+                        }
+                        
+                        break;
+                }
+            }
+            
+            $value["autorizador"] = substr($value["autorizador"], 0, -1);
+            $value["responsable"] = substr($value["responsable"], 0, -1);
+            
+            $response[] = $value;
+        }
+
+        return $response;
     }
 
     public function getResponsablesNotificacionBaja($dias) {
