@@ -65,7 +65,7 @@ return [
             'port' => '3329',
             'database' => 'portal_pcb', // inxdix_pes
             'username' => 'template', // triada template
-            'password' => 't3mpl4t#pC8tv547', // Syst3m18 Pa$$w0rd01
+            'password' => 'eyJpdiI6Ind1OStXS0JaMUE5emRmV0o4aVpySnc9PSIsInZhbHVlIjoiS2kzSXVxckZmYlltVzlpT2c3Vmw4aHJvMDZ4RU9KdTZVQzFxTDhTYjlBWT0iLCJtYWMiOiIwMzJkMDVkM2E2MDAxYTcyMDVjM2E1NTk4NzQ2Zjg5YzAwZTVhOTFiZTUwZDdkNWM0YTUyYjgwZTE1ODc0NmM1In0=', // t3mpl4t#pC8tv547
             'charset' => 'latin1',
             'collation' => 'latin1_bin',
             'unix_socket' => env('DB_SOCKET', ''),

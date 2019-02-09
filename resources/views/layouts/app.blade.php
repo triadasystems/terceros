@@ -98,6 +98,8 @@
         </main>
     </div>
     <script>
+        sessionStorage.desactivaLogout = 1;
+
         function mostrarError(id = null) {
             $("#"+id).addClass("error-msj-activo");
             $("#"+id).removeClass("error-msj-inactivo");
@@ -106,6 +108,20 @@
             $("#"+id).removeClass("error-msj-activo");
             $("#"+id).addClass("error-msj-inactivo");
         }
+
+        function logout() {
+            if(sessionStorage.desactivaLogout == 1) {
+                document.getElementById('logout-form').submit();
+            }
+        }
+
+        var mouseStop = null;
+        var Time = 600000; // Tiempo en milisegundos que espera para efectuarse la funcion
+
+        $(document).on('mousemove', function() {
+            clearTimeout(mouseStop);
+            mouseStop = setTimeout(logout,Time);
+        });
     </script>
     @stack('scripts')
 </body>
