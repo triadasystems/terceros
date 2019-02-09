@@ -108,6 +108,24 @@ class NotificacionController extends Controller {
                 print_r($e);
             }
         }
-        
+        $correo = mailSendModel::select('correo')->where("tcs_terceros_baja", "=", 1)->get()->toArray();
+        try {
+            if (count($fuses)>0)
+            {
+                foreach ($correo as $key) {
+                    $obj_mail = new \stdClass();
+                    $obj_mail->data = $fuses;
+                    $obj_mail->sender ='SYSADMIN';
+                    $correo = Validator::make($key, ['correo' => 'regex:/^.+@(.+\..+)$/']);
+                    $mail = Mail::to(array($key["correo"]));
+                    if (!$correo->fails() === true)
+                    { 
+                        $mail->send(new correo_fus_ven($obj_mail));
+                    }
+                }
+            }
+        } catch(Exception $e) {
+            print_r($e);
+        }
     }
 }

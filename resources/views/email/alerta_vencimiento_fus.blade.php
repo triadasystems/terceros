@@ -10,12 +10,12 @@
 </head>
 <body>
     <p>Notificación de periodo de alerta de vencimiento</p>
-    <p>La siguiente lista muestra los usuarios que estan proximos a ser dados de baja</p>
+    <p>La siguiente lista muestra los FUSES que estan proximos a vencer</p>
     <div>
         <table border="1">
             <thead bgcolor="#fcfcfc">
                 <th><p><b>Número de FUS</b></p></th>
-                <th><p><b>Número de FUS FIsico</b></p></th>
+                <th><p><b>Número de FUS Fisico</b></p></th>
                 <th><p><b>Descripción</b></p></th>
                 <th><p><b>Autorizador/Responsable</b></p></th>
                 <th><p><b>Aplicaciones</b></p></th>
