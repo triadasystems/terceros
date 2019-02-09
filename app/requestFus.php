@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use App\TipoBajas;
 
@@ -57,4 +58,37 @@ class requestFus extends Model
 
         return false;
     }
+    public function fus_vence($dias)
+    {
+        $fus= requestFus::select('tcs_request_fus.id',
+        'tcs_request_fus.id_generate_fus',
+        'tcs_request_fus.description',
+        'tcs_request_fus.fus_physical',
+        DB::raw("(SELECT
+            GROUP_CONCAT(name)
+                FROM
+                    applications
+                INNER JOIN
+                    tcs_applications_employee
+                ON
+                    tcs_applications_employee.applications_id = applications.id
+                WHERE
+            tcs_applications_employee.tcs_request_fus_id = tcs_request_fus.id) AS app"),
+        DB::raw("(SELECT
+        GROUP_CONCAT(name,if(type=1,' /Autorizador',' /Responsable'))
+            FROM
+                tcs_autorizador_responsable
+            WHERE
+                tcs_autorizador_responsable.tcs_request_fus_id = tcs_request_fus.id
+                AND tcs_autorizador_responsable.status=1) AS aut_res")
+        )
+        ->join('tcs_external_employees','tcs_request_fus.tcs_external_employees_id','=','tcs_external_employees.id')
+        ->where('tcs_request_fus.type', '!=', '3')
+        ->where('tcs_request_fus.status_fus', '=','1')
+        ->where("tcs_request_fus.low_date", "<", DB::raw("(SELECT CURDATE() + INTERVAL $dias DAY)"))
+        ->get()
+        ->toArray();
+        return $fus; 
+    }
+
 }

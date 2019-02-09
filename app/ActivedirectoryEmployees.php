@@ -45,4 +45,14 @@ class ActivedirectoryEmployees extends Model
 
         return $emails;
     }
+    public function correo($id)
+    {
+        $sql= AutorizadorResponsable::select('email AS correo')
+        ->join('activedirectory_employees','tcs_autorizador_responsable.number','=','activedirectory_employees.extensionAttribute15')
+        ->where('tcs_autorizador_responsable.status','=','1')
+        ->where('tcs_autorizador_responsable.tcs_request_fus_id','=',$id)
+        ->get()
+        ->toArray();
+        return $sql;
+    }
 }

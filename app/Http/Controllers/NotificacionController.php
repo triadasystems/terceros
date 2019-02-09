@@ -4,11 +4,14 @@ namespace App\Http\Controllers;
 //-------------------------------------
 use App\mailSendModel;
 use App\Mail\email_f_ven;
+use App\Mail\correo_fus_ven;
 use Illuminate\Support\Facades\Mail;
 use Validator;
 //-------------------------------------
 use App\setting;
 use App\Terceros;
+use App\requestFus;
+use App\ActivedirectoryEmployees;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 
@@ -73,5 +76,38 @@ class NotificacionController extends Controller {
         } catch(Exception $e) {
             print_r($e);
         }
+    }
+    public function fus_vence()
+    {
+        ini_set('date.timezone','America/Mexico_City');
+        $fecha_actual = date("Y-m-d");
+        $a = new setting;
+        $data = $a->recuperar_dias();
+        $dia_limit = $data[0]['settings'];
+
+        $a= new requestFus;
+        $fuses=$a->fus_vence($dia_limit);
+        foreach ($fuses as $value) {
+            try {
+                $correo = new ActivedirectoryEmployees;
+                $dat=$correo->correo($value['id']);
+                if (count($dat)>0)
+                {
+                    foreach ($dat as $send_meil) {
+                        $obj_mail = new \stdClass();
+                        $obj_mail->data = $fuses;
+                        $obj_mail->sender ='SYSADMIN';
+                        $correo = Validator::make($send_meil, ['correo' => 'regex:/^.+@(.+\..+)$/']);
+                        $mail = Mail::to(array($send_meil["correo"]));
+                        if (!$correo->fails() === true) { 
+                            $mail->send(new correo_fus_ven($obj_mail));
+                        }
+                    }
+                }
+            } catch(Exception $e) {
+                print_r($e);
+            }
+        }
+        
     }
 }

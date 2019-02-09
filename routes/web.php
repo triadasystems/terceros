@@ -41,4 +41,5 @@ Route::group(['prefix'=>'sendmail'], function()
 {
     Route::get('/vencimiento','NotificacionController@not_caducidad')->name('vencimientoTerceros');
     Route::get('/vencimientobyresponsable','NotificacionController@not_caducidad_auth_resp')->name('vencimientoTercerosPorResponsables');
+    Route::get('/vencimientobyfus','NotificacionController@fus_vence')->name('vencimientoFUS');
 });
