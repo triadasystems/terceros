@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\mailSendModel;
 use App\Mail\email_f_ven;
 use App\Mail\correo_fus_ven;
+use App\Mail\correo_fus_ven_unico;
 use Illuminate\Support\Facades\Mail;
 use Validator;
 //-------------------------------------
@@ -87,6 +88,7 @@ class NotificacionController extends Controller {
 
         $a= new requestFus;
         $fuses=$a->fus_vence($dia_limit);
+        
         foreach ($fuses as $value) {
             try {
                 $correo = new ActivedirectoryEmployees;
@@ -95,12 +97,12 @@ class NotificacionController extends Controller {
                 {
                     foreach ($dat as $send_meil) {
                         $obj_mail = new \stdClass();
-                        $obj_mail->data = $fuses;
+                        $obj_mail->data = $value;
                         $obj_mail->sender ='SYSADMIN';
                         $correo = Validator::make($send_meil, ['correo' => 'regex:/^.+@(.+\..+)$/']);
                         $mail = Mail::to(array($send_meil["correo"]));
                         if (!$correo->fails() === true) { 
-                            $mail->send(new correo_fus_ven($obj_mail));
+                            $mail->send(new correo_fus_ven_unico($obj_mail));
                         }
                     }
                 }
@@ -108,6 +110,7 @@ class NotificacionController extends Controller {
                 print_r($e);
             }
         }
+        //evia a los configurados
         $correo = mailSendModel::select('correo')->where("tcs_terceros_baja", "=", 1)->get()->toArray();
         try {
             if (count($fuses)>0)
