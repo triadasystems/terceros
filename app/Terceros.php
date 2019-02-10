@@ -56,7 +56,7 @@ class Terceros extends Model
 
     public function bajaTercero($data, $forma = "manual") {
         $tercero = Terceros::find($data["id"]);
-
+        
         $applicationsEmployee = new ApplicationsEmployee;
         $aplicacionesDelTercero = "";
         
@@ -138,7 +138,8 @@ class Terceros extends Model
 
         $tercero->status = 2;
         
-        if($tercero->save()) {
+        //if($tercero->save()) {
+        if(1==1) {
             $fus = new requestFus;
             $id = $fus->altaFus(3, $data, $forma);
 
@@ -170,13 +171,16 @@ class Terceros extends Model
     }
 
     public function bajasDiarias($terceros) {
+    
         $tercero = new Terceros;
         $response = null;
+        
         foreach($terceros as $row) {
             $data = array();
             $data["motivo"] = 0;
             $data["id"] = $row["id"];
-            $data["real_low_date"] = null;
+            $data["real_low_date"] = $row["low_date"];
+            //$data["real_low_date"] = null;
 
             if($tercero->bajaTercero($data, "automatica") === true) {
                 $response .= $row["id"].",";

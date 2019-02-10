@@ -29,12 +29,19 @@ class requestFus extends Model
     public $timestamps = false;
 
     public function altaFus($tipo, $data, $forma = "manual") {
+        
 
         $noEmployee = null;
+        $fus = new requestFus;
 
         if($forma == "manual") {
             $noEmployee = Auth::user()->noEmployee;
+            $fus->description = "Se aplico la baja manual";
+            $fus->users_id = Auth::user()->id;
         } 
+        else{
+            $fus->description = "Se aplico la baja automatica";
+        }
 
         if($data["motivo"] == 0) {
             $tipoB = TipoBajas::select("id")->where("code", "=", 0)->first()->toArray();
@@ -43,16 +50,20 @@ class requestFus extends Model
             $motivo = $data["motivo"];
         }
 
-        $fus = new requestFus;
+        
         $fus->id_generate_fus = strtotime(date("Y-m-d H:i:s"));
-        $fus->description = "Se aplico la baja";
+       
         $fus->type = $tipo;
-        $fus->users_id = Auth::user()->id;
+        
+        // if(Auth::user()->id) {
+        //     $fus->users_id = Auth::user()->id; // aqui crasheo la subrutina y no inserta en la tabla de FUS
+        // }
+        
         $fus->tcs_type_low_id = $motivo;
         $fus->tcs_external_employees_id = $data["id"];
         $fus->real_low_date = $data["real_low_date"];
         $fus->tcs_number_responsable_authorizer = $noEmployee;
-
+        
         if ($fus->save()) {
             return $fus->id;
         }
