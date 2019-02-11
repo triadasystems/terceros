@@ -18,7 +18,7 @@ class BajasautomaticasController extends Controller
         $terceros = new Terceros;
         $listadoT = $terceros->listaBajaDiaria();
         $result = $terceros->bajasDiarias($listadoT);
-        
+
         /* Aquí debe ir el envío del correo*/
         $correo = mailSendModel::select('correo')->where("tcs_terceros_baja", "=", 1)->get()->toArray();
         $idTerceros = explode(",", $result);

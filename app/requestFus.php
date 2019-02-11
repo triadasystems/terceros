@@ -32,7 +32,12 @@ class requestFus extends Model
 
         $noEmployee = null;
 
+        $descripcionB = "SE APLICO LA BAJA AUTOMÁTICA";
+        $users_id = 1;
+
         if($forma == "manual") {
+            $descripcionB = "SE APLICO LA BAJA";
+            $users_id = Auth::user()->id;
             $noEmployee = Auth::user()->noEmployee;
         } 
 
@@ -45,9 +50,9 @@ class requestFus extends Model
 
         $fus = new requestFus;
         $fus->id_generate_fus = strtotime(date("Y-m-d H:i:s"));
-        $fus->description = "Se aplico la baja";
         $fus->type = $tipo;
-        $fus->users_id = Auth::user()->id;
+        $fus->description = $descripcionB;
+        $fus->users_id = $users_id;       
         $fus->tcs_type_low_id = $motivo;
         $fus->tcs_external_employees_id = $data["id"];
         $fus->real_low_date = $data["real_low_date"];
@@ -86,6 +91,7 @@ class requestFus extends Model
         ->join('tcs_external_employees','tcs_request_fus.tcs_external_employees_id','=','tcs_external_employees.id')
         ->where('tcs_request_fus.type', '!=', '3')
         ->where('tcs_request_fus.status_fus', '=','1')
+        ->where('tcs_external_employees.status', '=','1')
         ->where("tcs_request_fus.low_date", "<", DB::raw("(SELECT CURDATE() + INTERVAL $dias DAY)"))
         ->get()
         ->toArray();

@@ -194,7 +194,7 @@ return [
                 // 'username' => 'cpavonmu@televisa.com.mx',
                 // 'password' => 'Pacemu1219&/',
                 'username' => 'sysadmin_desa@televisa.com.mx',
-                'password' => 'Diciembre_2mil18#',
+                'password' => 'January_2mil18#',
 
                 /*
                 |--------------------------------------------------------------------------

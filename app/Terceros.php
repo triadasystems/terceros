@@ -85,7 +85,7 @@ class Terceros extends Model
         ->distinct()
         ->get()
         ->toArray();
-        
+
         $autorizador = '';
         $responsable = '';
 
@@ -129,7 +129,7 @@ class Terceros extends Model
             "responsible_name" => $response["responsable"],
             "responsible_number" => null,
             "created_at" => $tercero->created_at,
-            "status" => $tercero->status,
+            "status" => 2,
             "tcs_fus_ext_hist" => $tercero->tcs_fus_ext_hist,
             "tcs_applications_ids" => substr($aplicacionesDelTercero, 0, -1),
             "tcs_subfijo_id" => $tercero->tcs_subfijo_id,
@@ -137,10 +137,17 @@ class Terceros extends Model
         );
 
         $tercero->status = 2;
-        
+
         if($tercero->save()) {
             $fus = new requestFus;
-            $id = $fus->altaFus(3, $data, $forma);
+
+            $tipoFus = 4;
+
+            if($forma == "manual") {
+                $tipoFus = 3;
+            }
+
+            $id = $fus->altaFus($tipoFus, $data, $forma);
 
             if($id !== false) {
                 $historicoTercero = new HistoricoTerceros;
@@ -166,11 +173,13 @@ class Terceros extends Model
     }
 
     public function listaBajaDiaria() {
-        return Terceros::where("low_date", "<", DB::raw("CURDATE()"))->where("status", "=", 1)->get()->toArray();
+        //return Terceros::where("low_date", "<", DB::raw("CURDATE()"))->where("status", "=", 1)->get()->toArray();
+        return Terceros::where("low_date", "<", "2019-03-02")->where("status", "=", 1)->get()->toArray();
     }
 
     public function bajasDiarias($terceros) {
         $tercero = new Terceros;
+        
         $response = null;
         foreach($terceros as $row) {
             $data = array();

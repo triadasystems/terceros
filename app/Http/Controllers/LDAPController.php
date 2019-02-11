@@ -21,12 +21,13 @@ class LDAPController extends Controller
         $results = Adldap::getProvider('filial')->search()->users()->get();
         echo '<pre>';var_dump($results);echo '</pre>';
         echo 'CORP<br>';
-        $results = Adldap::search()->users()->get();
+        $results = Adldap::search()->users()->find('aesanchezf');
+        // $results = Adldap::search()->users()->get();
         echo '<pre>';var_dump($results);echo '</pre>';
         die();
 
         $username = 'cpavonmu';
-        $password = 'Pacemu1219&/';
+        $password = 'Pacemu1220&/';
 
         try {
             if (Adldap::auth()->attempt($username, $password)) {
