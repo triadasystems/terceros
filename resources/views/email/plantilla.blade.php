@@ -14,7 +14,6 @@
     <div>
         <table border="1">
             <thead bgcolor="#fcfcfc">
-                <th><p><b>Folio de la solicitud</b></p></th>
                 <th><p><b>Número del empleado</b></p></th>
                 <th><p><b>Nombre completo del empleado</b></p></th>
                 <th><p><b>Empresa</b></p></th>
@@ -24,7 +23,6 @@
             <tbody>
                 @foreach($obj_mail->data as $val)
                 <tr>
-                    <td align="center">{{ $val["fus"]}}</td>
                     <td align="center">{{ $val["id_externo"] }}</td>
                     <td align="center">{{ $val["nombre"]." ".$val["a_paterno"]." ".$val["a_materno"] }}</td>
                     <td align="center">{{ $val["empresa"] }}</td>
