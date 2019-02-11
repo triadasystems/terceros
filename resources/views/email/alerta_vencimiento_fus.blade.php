@@ -14,20 +14,23 @@
     <div>
         <table border="1">
             <thead bgcolor="#fcfcfc">
-                <th><p><b>Número de FUS</b></p></th>
                 <th><p><b>Número de FUS Fisico</b></p></th>
+                <th><p><b>Nombre del Tercero</b></p></th>
                 <th><p><b>Descripción</b></p></th>
                 <th><p><b>Autorizador/Responsable</b></p></th>
                 <th><p><b>Aplicaciones</b></p></th>
+                <th><p><b>Fecha de Vencimiento</b></p></th>
             </thead>
             <tbody>
                 @foreach($obj_mail->data as $val)
                 <tr>
-                    <td align="center">{{ $val["id_generate_fus"]}}</td>
+                    
                     <td align="center">{{ $val["fus_physical"] }}</td>
+                    <td align="center">{{ $val["full_name"]}}</td>
                     <td align="center">{{ $val["description"] }}</td>
                     <td align="center">{{ $val["aut_res"] }}</td>
                     <td align="center">{{ $val["app"] }}</td>
+                    <td align="center">{{ $val["low_date"] }}</td>
                 </tr>
                 @endforeach
             </tbody>

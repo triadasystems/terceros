@@ -70,6 +70,9 @@ class requestFus extends Model
         'tcs_request_fus.id_generate_fus',
         'tcs_request_fus.description',
         'tcs_request_fus.fus_physical',
+        'tcs_request_fus.low_date',
+        DB::raw("CONCAT(tcs_external_employees.name,' ',tcs_external_employees.lastname1,' ',tcs_external_employees.lastname2) AS full_name"), 
+        DB::raw("if(tcs_external_employees.badge_number IS NULL, 'S/N',tcs_external_employees.badge_number) AS gafete"),
         DB::raw("(SELECT
             GROUP_CONCAT(name)
                 FROM

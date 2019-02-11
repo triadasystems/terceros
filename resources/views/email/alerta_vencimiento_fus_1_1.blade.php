@@ -14,19 +14,21 @@
     <div>
         <table border="1">
             <thead bgcolor="#fcfcfc">
-                <th><p><b>Número de FUS</b></p></th>
                 <th><p><b>Número de FUS Fisico</b></p></th>
+                <th><p><b>Nombre del Tercero</b></p></th>
                 <th><p><b>Descripción</b></p></th>
                 <th><p><b>Autorizador/Responsable</b></p></th>
                 <th><p><b>Aplicaciones</b></p></th>
+                <th><p><b>Fecha de Vencimiento</b></p></th>
             </thead>
             <tbody>
                 <tr>
-                    <td align="center">{{ $obj_mail->data["id_generate_fus"]}}</td>
                     <td align="center">{{ $obj_mail->data["fus_physical"] }}</td>
+                    <td align="center">{{ $obj_mail->data["full_name"]}}</td>
                     <td align="center">{{ $obj_mail->data["description"] }}</td>
                     <td align="center">{{ $obj_mail->data["aut_res"] }}</td>
                     <td align="center">{{ $obj_mail->data["app"] }}</td>
+                    <td align="center">{{ $obj_mail->data["low_date"] }}</td>
                 </tr>
             </tbody>
         </table>

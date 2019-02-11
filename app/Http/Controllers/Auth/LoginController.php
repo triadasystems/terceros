@@ -95,14 +95,14 @@ class LoginController extends Controller
         }
 
         if (!isset($datos["attributes"]["extensionattribute15"])) {
-            if($noEmployee == 2046132) {
-                $response['noEmp'] = true;
-            } else {
+            // if($noEmployee == 2046132) {
+            //     $response['noEmp'] = true;
+            // } else {
                 $response['status'] = false;
                 $response['noEmp'] = false;
 
                 return $response;
-            }
+            // }
         } else {
             if(count($datos["attributes"]["extensionattribute15"]) > 0) {
                 $response['noEmp'] = true;
