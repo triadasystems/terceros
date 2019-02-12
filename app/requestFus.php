@@ -96,6 +96,7 @@ class requestFus extends Model
         ->where('tcs_request_fus.status_fus', '=','1')
         ->where('tcs_external_employees.status', '=','1')
         ->where("tcs_request_fus.low_date", "<", DB::raw("(SELECT CURDATE() + INTERVAL $dias DAY)"))
+        ->where("tcs_request_fus.low_date", ">=", DB::raw("(SELECT CURDATE())"))
         ->get()
         ->toArray();
         return $fus; 
