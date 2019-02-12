@@ -59,7 +59,7 @@
                         <!-- Authentication Links -->
                         @guest
                             <li class="nav-item">
-                                <a class="nav-link" href="http://10.7.15.207/televisa_triada/pcb/public/index.php">{{ __('Home') }}</a>
+                                <a class="nav-link" href="http://10.7.15.206/televisa_triada/pes2018/public/index.php">{{ __('Home') }}</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>

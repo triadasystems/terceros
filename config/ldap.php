@@ -193,8 +193,8 @@ return [
                 // 'password' => env('LDAP_PASSWORD'),
                 // 'username' => 'cpavonmu@televisa.com.mx',
                 // 'password' => 'Pacemu1219&/',
-                'username' => 'sysadmin_desa@televisa.com.mx',
-                'password' => 'January_2mil18#',
+                'username' => 'sysadmin@televisa.com.mx',
+                'password' => '',
 
                 /*
                 |--------------------------------------------------------------------------
