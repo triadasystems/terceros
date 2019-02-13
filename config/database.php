@@ -42,7 +42,7 @@ return [
 
         'mysql' => [
             'driver' => 'mysql',
-            'host' => '10.7.15.204',
+            'host' => '10.7.15.205',
             'port' => '3329',
             'database' => 'portal_pcb', // nombre de la database
             'username' => 'template', // usuario de la database
